@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BerrAPI.Models;
+using BerrAPI.Models.DTO;
 using BerrAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +14,18 @@ namespace BerrAPI.Controllers
     [ApiController]
     public class BeersController : ControllerBase
     {
-        private readonly IBeerService beerService;
+        public IBeerService BeerService { get; }
 
-        public BeersController(IBeerService beerService)
+        public BeersController(IBeerService _beerService)
         {
-
+            this.BeerService = _beerService;
         }
 
-        //[HttpGet]
-        //public IList<>
+        [HttpGet]
+        public async Task<ActionResult<ResultApi<IEnumerable<Beer>>>> Get([FromQuery] int page, int perPage)
+        {
+            var beers = await this.BeerService.GetAllBeer(page, perPage);
+            return this.Ok(beers);
+        }
     }
 }
