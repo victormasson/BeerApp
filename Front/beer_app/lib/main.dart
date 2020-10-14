@@ -1,3 +1,5 @@
+// import 'package:beer_app/configuration/theme.dart';
+import 'package:beer_app/configuration/themev2.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home_page.dart';
@@ -11,10 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: ThemeV2.light, //ThemeConf.light,
+      darkTheme: ThemeV2.dark,
+      themeMode: ThemeMode.light,
       home: HomePage(),
     );
   }
