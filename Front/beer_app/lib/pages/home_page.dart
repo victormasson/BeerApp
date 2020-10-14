@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:beer_app/components/beer_component.dart';
+import 'package:beer_app/widgets/list_beer_widget.dart';
 import 'package:beer_app/models/beer.dart';
 import 'package:beer_app/services/beer_service.dart';
 
@@ -19,61 +19,38 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    init();
+    getFetchBeer();
   }
 
-  void init() async {
-    this.listBeer = await beerService.getAll();
-    var a = 1;
+  Future<void> getFetchBeer() async {
+    var lstBeer = await beerService.getAll(page: 1, perPage: 80);
+    setState(() {
+      this.listBeer = lstBeer;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _Background(
-            width: width * 0.4,
-            height: height * 0.8,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 50,
-              ),
-              _AppBar(),
-              SizedBox(
-                height: 30,
-              ),
-              _Title(
-                text: 'Featured Products',
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              _SettingAndOptions(),
-              SizedBox(
-                height: 30,
-              ),
-              BlocBuilder<ItemBloc, ItemSelectedState>(
-                builder: (context, state) {
-                  return _ItemsWidget(
-                    items: state.selectedItem,
-                    screenWidth: width,
-                    screenHeight: height,
-                  );
-                },
-              ),
-              Spacer(),
-              _BottomBar(),
-              SizedBox(
-                height: 30,
-              ),
-            ],
-          ),
-        ],
+      appBar: new AppBar(
+        title: new Text('Relish Eat'),
       ),
+      body: this.listBeer != null && this.listBeer.length == 0
+          ? Column(
+              children: [
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+            )
+          : RefreshIndicator(
+              child: ListBeerWidget(listBeer: this.listBeer),
+              onRefresh: () async {
+                getFetchBeer();
+              },
+            ),
     );
   }
 }

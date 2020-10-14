@@ -130,7 +130,8 @@ class Volume {
   Volume({this.value, this.unit});
 
   Volume.fromJson(Map<String, dynamic> json) {
-    value = double.parse(json['value'].toString());
+    value =
+        json['value'] != null ? double.parse(json['value'].toString()) : null;
     unit = json['unit'];
   }
 
