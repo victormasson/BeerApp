@@ -1,10 +1,10 @@
 import 'package:beer_app/configuration/routes.dart';
 import 'package:beer_app/models/beer.dart';
-import 'package:beer_app/store/beer_store.dart';
 import 'package:beer_app/store/store.dart';
 import 'package:beer_app/utils/enums.dart';
 import 'package:beer_app/utils/string_utils.dart';
 import 'package:beer_app/utils/toast.dart';
+import 'package:beer_app/widgets/home_page/home_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -98,22 +98,34 @@ class _ListBeerWidgetState extends State<ListBeerWidget> {
 
   Widget getSearch() {
     return Container(
-      padding: EdgeInsets.all(12),
-      child: TextField(
-        controller: _searchQueryController,
-        autofocus: false,
-        showCursor: this.showCursor,
-        textAlignVertical: TextAlignVertical.center,
-        decoration: InputDecoration(
-          hintText: "Search Data...",
-          border: InputBorder.none,
-          prefixIcon: Icon(Icons.search,
-              color: Theme.of(context).colorScheme.secondary),
-          hintStyle: TextStyle(color: Theme.of(context).colorScheme.background),
+      padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: Container(
+        decoration: new BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
         ),
-        style: Theme.of(context).textTheme.bodyText2,
-        onChanged: (query) => updateSearchQuery(query),
-        onSubmitted: (String query) => startSearch(query),
+        child: Stack(
+          alignment: Alignment.centerRight,
+          children: [
+            TextField(
+              controller: _searchQueryController,
+              autofocus: false,
+              showCursor: this.showCursor,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                hintText: "Search Data...",
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search,
+                    color: Theme.of(context).colorScheme.secondary),
+                hintStyle:
+                    TextStyle(color: Theme.of(context).colorScheme.background),
+              ),
+              style: Theme.of(context).textTheme.bodyText2,
+              onChanged: (query) => updateSearchQuery(query),
+              onSubmitted: (String query) => startSearch(query),
+            ),
+            HomeMenuWidget(),
+          ],
+        ),
       ),
     );
   }
@@ -127,6 +139,7 @@ class _ListBeerWidgetState extends State<ListBeerWidget> {
         builder: (_) => StoreApp.beerStore.isLoadingPage
             ? Center(child: CircularProgressIndicator())
             : Container(
+                padding: EdgeInsets.fromLTRB(0, 65, 0, 0),
                 child: Column(
                   children: [
                     getSearch(),
@@ -165,7 +178,7 @@ class _ListBeerWidgetState extends State<ListBeerWidget> {
                           ),
                           onTap: () {
                             StoreApp.beerStore.setBeer = beer;
-                            Navigator.pushNamed(context, RoutesName.beer);
+                            Navigator.pushNamed(context, RoutesName.beer.path);
                           },
                         );
                       },
