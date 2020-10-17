@@ -154,7 +154,7 @@ class _MethodWidgetState extends State<MethodWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 80.0),
+          padding: EdgeInsets.fromLTRB(0, 45, 0, 80.0),
           itemCount: getListItem().length,
           itemBuilder: (context, index) {
             var item = getListItem()[index];

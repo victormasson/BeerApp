@@ -1,6 +1,7 @@
 import 'package:beer_app/store/store.dart';
 import 'package:beer_app/utils/enums.dart';
-import 'package:beer_app/widgets/home_page/home_menu_widget.dart';
+import 'package:beer_app/widgets/home_page/drawer_widget.dart';
+import 'package:beer_app/widgets/home_page/home_menu_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:beer_app/widgets/list_beer_widget.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -25,14 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: new AppBar(
-      //   title: new Text(
-      //     'Punk API',
-      //     style: Theme.of(context).textTheme.headline5,
-      //     textAlign: TextAlign.center,
-      //   ),
-      // ),
-
+      drawer: DrawerWidget(),
       body: ListBeerWidget(),
       floatingActionButton: Observer(
         builder: (_) => Row(
@@ -57,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.background,
         tooltip: 'Page',
         isExtended: true,
-        icon: HomeMenuWidget(),
+        icon: HomeMenuDataWidget(),
         label: Text(
           StoreApp.beerStore.getCurrentPage.toString(),
           style: Theme.of(context).textTheme.headline6,

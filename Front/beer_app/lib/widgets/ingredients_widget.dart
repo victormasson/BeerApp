@@ -81,7 +81,10 @@ class _IngredientsWidgetState extends State<IngredientsWidget> {
   }
 
   List<Widget> getMalt() {
-    return ingredients.malt
+    var listMalt = [
+      ...ingredients.malt,
+    ];
+    return listMalt
         .map((malt) => ListTile(
               leading: CircleAvatar(
                 child: Text(
@@ -141,7 +144,7 @@ class _IngredientsWidgetState extends State<IngredientsWidget> {
     return Scaffold(
       extendBody: true,
       body: ListView.builder(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 80.0),
+          padding: EdgeInsets.fromLTRB(0, 45, 0, 80.0),
           itemCount: getListItem().length,
           itemBuilder: (context, index) {
             var item = getListItem()[index];
