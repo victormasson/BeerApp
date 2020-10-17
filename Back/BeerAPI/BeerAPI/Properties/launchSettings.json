@@ -19,7 +19,7 @@
     "BeerAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/beers?page=1&perPage=10",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -9,7 +9,7 @@ namespace BeerAPI.Models
     public class Volume
     {
         [JsonPropertyName("value")]
-        public int Value { get; set; }
+        public decimal? Value { get; set; }
 
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
@@ -18,7 +18,7 @@ namespace BeerAPI.Models
     public class BoilVolume
     {
         [JsonPropertyName("value")]
-        public int Value { get; set; }
+        public decimal? Value { get; set; }
 
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
@@ -27,7 +27,7 @@ namespace BeerAPI.Models
     public class Temp
     {
         [JsonPropertyName("value")]
-        public int? Value { get; set; }
+        public decimal? Value { get; set; }
 
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
@@ -39,13 +39,13 @@ namespace BeerAPI.Models
         public Temp Temp { get; set; }
 
         [JsonPropertyName("duration")]
-        public int? Duration { get; set; }
+        public decimal? Duration { get; set; }
     }
 
     public class Temp2
     {
         [JsonPropertyName("value")]
-        public int? Value { get; set; }
+        public decimal? Value { get; set; }
 
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
@@ -144,16 +144,16 @@ namespace BeerAPI.Models
         public string ImageUrl { get; set; }
 
         [JsonPropertyName("abv")]
-        public decimal Abv { get; set; }
+        public decimal? Abv { get; set; }
 
         [JsonPropertyName("ibu")]
         public decimal? Ibu { get; set; }
 
         [JsonPropertyName("target_fg")]
-        public int TargetFg { get; set; }
+        public decimal? TargetFg { get; set; }
 
         [JsonPropertyName("target_og")]
-        public int TargetOg { get; set; }
+        public decimal? TargetOg { get; set; }
 
         [JsonPropertyName("ebc")]
         public decimal? Ebc { get; set; }
@@ -165,7 +165,7 @@ namespace BeerAPI.Models
         public decimal? Ph { get; set; }
 
         [JsonPropertyName("attenuation_level")]
-        public int AttenuationLevel { get; set; }
+        public decimal? AttenuationLevel { get; set; }
 
         [JsonPropertyName("volume")]
         public Volume Volume { get; set; }

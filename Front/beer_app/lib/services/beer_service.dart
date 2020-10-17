@@ -4,11 +4,11 @@ import 'package:beer_app/services/api.dart';
 import 'package:flutter/widgets.dart';
 
 class BeerService {
-  String url = "beers";
+  static String url = "beers";
 
   BeerService();
 
-  Future<List<Beer>> getAll({int page = 1, int perPage = 72}) async {
+  static Future<List<Beer>> getAll({int page = 1, int perPage = 72}) async {
     if (perPage > 80) {
       perPage = 80;
     }

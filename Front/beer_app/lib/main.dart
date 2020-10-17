@@ -1,22 +1,37 @@
-// import 'package:beer_app/configuration/theme.dart';
-import 'package:beer_app/configuration/themev2.dart';
+import 'package:beer_app/configuration/app_builder.dart';
+import 'package:beer_app/configuration/routes.dart';
+import 'package:beer_app/configuration/themes.dart';
+import 'package:beer_app/store/store.dart';
 import 'package:flutter/material.dart';
-
-import 'pages/home_page.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeV2.light, //ThemeConf.light,
-      darkTheme: ThemeV2.dark,
-      themeMode: ThemeMode.light,
-      home: HomePage(),
-    );
+    initStore();
+    return BeerApp();
+  }
+}
+
+class BeerApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AppBuilder(builder: (context) {
+      return Observer(
+          builder: (_) => MaterialApp(
+                title: 'Flutter Demo',
+                theme: Themes.light,
+                darkTheme: Themes.dark,
+                themeMode: StoreApp.globalStore.globalSetting.themeMode,
+                routes: routes,
+                initialRoute: '/',
+              ));
+    });
   }
 }

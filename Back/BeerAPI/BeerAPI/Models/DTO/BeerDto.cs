@@ -17,7 +17,7 @@ namespace BeerAPI.Models.DTO
         /// <summary>
         /// Pourcentage d'alcool
         /// </summary>
-        public decimal Abv { get; set; }
+        public decimal? Abv { get; set; }
 
         public string Twist { get; set; }
     }

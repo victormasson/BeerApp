@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using BeerAPI.Models;
 using BeerAPI.Models.DTO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 
 namespace BeerAPI.Services
 {
@@ -41,8 +42,11 @@ namespace BeerAPI.Services
         {
             ResultApi<IEnumerable<Beer>> res = new ResultApi<IEnumerable<Beer>>();
 
-            string url = this.Configuration["ApiServices:BeerApi"];
-            var request = CreateRequest(HttpMethod.Get, $"{url}/beers?page={page}&per_page={perPage}");
+            string url = $"{this.Configuration["ApiServices:BeerApi"]}/beers?page={page}&per_page={perPage}";
+
+            var request = CreateRequest(HttpMethod.Get, url);
+            this.Logger.LogInformation($"[{request.Method.Method}] {request.RequestUri.AbsoluteUri}");
+
             var client = this.HttpClient.CreateClient();
             var response = await client.GetAsync(request.RequestUri);
 
@@ -52,19 +56,21 @@ namespace BeerAPI.Services
                 {
                     var strContentError = await response.Content.ReadAsStringAsync();
 
-                    ErrorApi errorApi = JsonConvert.DeserializeObject<ErrorApi>(strContentError, new JsonSerializerSettings { MaxDepth = 100 });
+                    ErrorApi errorApi = JsonSerializer.Deserialize<ErrorApi>(strContentError);
                     return new ResultApi<IEnumerable<Beer>>
                     {
                         ErrorApi = errorApi
                     };
                 }
 
-                throw new Exception(string.Format("{0}|{1}", response.StatusCode, response.Content));
+                string logError = $"{response.StatusCode}|{response.Content}";
+                this.Logger.LogError(logError);
+                throw new Exception(logError);
             }
 
             var strContent = await response.Content.ReadAsStringAsync();
-
-            IEnumerable<Beer> beers = JsonConvert.DeserializeObject<IEnumerable<Beer>>(strContent);
+            this.Logger.LogInformation($"{response.StatusCode}");
+            IEnumerable<Beer> beers = JsonSerializer.Deserialize<IEnumerable<Beer>>(strContent);
             return new ResultApi<IEnumerable<Beer>>
             {
                 Data = beers

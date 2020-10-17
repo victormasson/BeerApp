@@ -44,19 +44,53 @@ class Beer {
       this.brewersTips,
       this.contributedBy});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': this.name,
+      'tagline': this.tagline,
+      'firstBrewed': this.firstBrewed,
+      'description': this.description,
+      'imageUrl': this.imageUrl,
+      'abv': this.abv,
+      'ibu': this.ibu,
+      'targetFg': this.targetFg,
+      'targetOg': this.targetOg,
+      'ebc': this.ebc,
+      'srm': this.srm,
+      'ph': this.ph,
+      'attenuationLevel': this.attenuationLevel,
+      'volume': this.volume,
+      'boilVolume': this.boilVolume,
+      'method': this.method,
+      'ingredients': this.ingredients,
+      'foodPairing': this.foodPairing,
+      'brewersTips': this.brewersTips,
+      'contributedBy': this.contributedBy,
+    };
+  }
+
   Beer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     tagline = json['tagline'];
 
-    String month = json['first_brewed'] != null
-        ? json['first_brewed'].split('/')[0]
-        : "01";
-    String year =
-        json['first_brewed'] != null ? json['first_brewed'].split('/')[1] : "0";
-    firstBrewed = year != null && month != null
-        ? DateTime.parse(year + month + '01')
-        : DateTime.now();
+    var splited =
+        json['first_brewed'] != null ? json['first_brewed'].split('/') : null;
+    if (splited != null && splited.length > 1) {
+      String month = json['first_brewed'] != null
+          ? json['first_brewed'].split('/')[0]
+          : "01";
+      String year = json['first_brewed'] != null
+          ? json['first_brewed'].split('/')[1]
+          : "0";
+      firstBrewed = year != null && month != null
+          ? DateTime.parse(year + month + '01')
+          : DateTime.now();
+    } else {
+      firstBrewed = DateTime.parse(splited[0] + '0101');
+    }
+
     description = json['description'];
     imageUrl = json['image_url'];
     abv = json['abv'] != null ? double.parse(json['abv'].toString()) : null;
@@ -129,6 +163,13 @@ class Volume {
 
   Volume({this.value, this.unit});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'value': this.value,
+      'unit': this.unit,
+    };
+  }
+
   Volume.fromJson(Map<String, dynamic> json) {
     value =
         json['value'] != null ? double.parse(json['value'].toString()) : null;
@@ -149,6 +190,14 @@ class Method {
   String twist;
 
   Method({this.mashTemp, this.fermentation, this.twist});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'mashTemp': this.mashTemp,
+      'fermentation': this.fermentation,
+      'twist': this.twist,
+    };
+  }
 
   Method.fromJson(Map<String, dynamic> json) {
     if (json['mash_temp'] != null) {
@@ -182,6 +231,13 @@ class MashTemp {
 
   MashTemp({this.temp, this.duration});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'temp': this.temp,
+      'duration': this.duration,
+    };
+  }
+
   MashTemp.fromJson(Map<String, dynamic> json) {
     temp = json['temp'] != null ? new Volume.fromJson(json['temp']) : null;
     duration = json['duration'];
@@ -202,6 +258,12 @@ class Fermentation {
 
   Fermentation({this.temp});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'temp': this.temp,
+    };
+  }
+
   Fermentation.fromJson(Map<String, dynamic> json) {
     temp = json['temp'] != null ? new Volume.fromJson(json['temp']) : null;
   }
@@ -221,6 +283,14 @@ class Ingredients {
   String yeast;
 
   Ingredients({this.malt, this.hops, this.yeast});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'malt': this.malt,
+      'hops': this.hops,
+      'yeast': this.yeast,
+    };
+  }
 
   Ingredients.fromJson(Map<String, dynamic> json) {
     if (json['malt'] != null) {
@@ -257,6 +327,13 @@ class Malt {
 
   Malt({this.name, this.amount});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': this.name,
+      'amount': this.amount,
+    };
+  }
+
   Malt.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     amount =
@@ -279,6 +356,13 @@ class Amount {
 
   Amount({this.value, this.unit});
 
+  Map<String, dynamic> toMap() {
+    return {
+      'value': this.value,
+      'unit': this.unit,
+    };
+  }
+
   Amount.fromJson(Map<String, dynamic> json) {
     value = double.parse(json['value'].toString());
     unit = json['unit'];
@@ -299,6 +383,15 @@ class Hops {
   String attribute;
 
   Hops({this.name, this.amount, this.add, this.attribute});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': this.name,
+      'amount': this.amount,
+      'add': this.add,
+      'attribute': this.attribute,
+    };
+  }
 
   Hops.fromJson(Map<String, dynamic> json) {
     name = json['name'];
