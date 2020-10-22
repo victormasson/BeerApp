@@ -13,7 +13,7 @@ class BeerStore = _BeerStore with _$BeerStore;
 // The store-class
 abstract class _BeerStore with Store {
   @observable
-  Beer getBeer = new Beer();
+  Beer getBeer;
 
   @observable
   List<Beer> getListBeer = new List<Beer>();
@@ -61,6 +61,7 @@ abstract class _BeerStore with Store {
   String getQuery = '';
   set setQuery(String newValue) {
     this.getQuery = newValue;
+    this.loadBeer();
   }
 
   @computed
@@ -105,12 +106,14 @@ abstract class _BeerStore with Store {
   int getRowsPerPage = 10;
   set setRowsPerPage(int rowsPerPage) {
     this.getRowsPerPage = rowsPerPage;
+    this.loadBeer(reloadData: true);
   }
 
   @observable
   int getCurrentPage = 1;
   set setCurrentPage(int currentPage) {
     this.getCurrentPage = currentPage;
+    this.loadBeer(reloadData: true);
   }
 
   @action
@@ -142,5 +145,58 @@ abstract class _BeerStore with Store {
     } catch (e) {
       return e.message;
     }
+  }
+
+  @action
+  Future<String> fethBeer({@required int id}) async {
+    try {
+      Beer beer = await BeerService.getById(id: id);
+      this.setBeer = beer;
+      return '';
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  @action
+  Future<String> fethBeerRandom() async {
+    try {
+      Beer beer = await BeerService.getRandom();
+      this.setBeer = beer;
+      return '';
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  @action
+  Future<void> loadBeer({bool reloadData = false}) async {
+    this.setIsLoadingPage = true;
+
+    if (reloadData) {
+      await this.fethListBeer(
+        page: this.getCurrentPage,
+        perPage: this.getRowsPerPage,
+      );
+
+      if (this.getListBeer.length != this.getRowsPerPage) {
+        setActionCurrentPage = ActionCurrentPage.dec;
+      } else if (this.getCurrentPage == 1) {
+        setActionCurrentPage = ActionCurrentPage.inc;
+      } else {
+        setActionCurrentPage = ActionCurrentPage.all;
+      }
+    }
+
+    var lstBeer;
+    if (this.getQuery == '') {
+      lstBeer = this.getSortedListBeer;
+    } else {
+      lstBeer = this.getListBeerWithQuery;
+    }
+
+    this.setListBeer = lstBeer;
+
+    this.setIsLoadingPage = false;
   }
 }

@@ -24,6 +24,14 @@ mixin _$GlobalStore on _GlobalStore, Store {
     });
   }
 
+  final _$getGlobalSettingsAsyncAction =
+      AsyncAction('_GlobalStore.getGlobalSettings');
+
+  @override
+  Future<void> getGlobalSettings() {
+    return _$getGlobalSettingsAsyncAction.run(() => super.getGlobalSettings());
+  }
+
   final _$_GlobalStoreActionController = ActionController(name: '_GlobalStore');
 
   @override

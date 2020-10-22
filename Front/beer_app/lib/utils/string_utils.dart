@@ -5,6 +5,10 @@ import 'package:flutter/cupertino.dart';
 /// @title Title to take initials.
 /// @maxlength Length max of the string.
 String transformStringInitials({@required String title, int maxlength = 1}) {
+  if (title == null || title == '') {
+    return '';
+  }
+
   var res = title
       .split(' ')
       .map((e) => e.substring(0, 1))

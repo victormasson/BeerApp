@@ -1,4 +1,5 @@
 import 'package:beer_app/configuration/app_builder.dart';
+import 'package:beer_app/database/global_setting_dal.dart';
 import 'package:beer_app/models/global_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -12,11 +13,18 @@ class GlobalStore = _GlobalStore with _$GlobalStore;
 // The store-class
 abstract class _GlobalStore with Store {
   @observable
-  GlobalSetting globalSetting = new GlobalSetting(themeMode: ThemeMode.light);
+  GlobalSetting globalSetting;
 
   @action
   void setThemeMode(ThemeMode themeMode, BuildContext context) {
-    this.globalSetting.themeMode = themeMode;
+    this.globalSetting.setThemeMode = themeMode;
     AppBuilder.of(context).rebuild();
+    GlobalSettingDal.update(this.globalSetting);
+  }
+
+  @action
+  Future<void> getGlobalSettings() async {
+    var globalSettingValue = await GlobalSettingDal.getById(1);
+    this.globalSetting = globalSettingValue;
   }
 }
