@@ -18,7 +18,7 @@ class _BeerPageState extends State<BeerPage>
     with SingleTickerProviderStateMixin {
   _BeerPageState();
   TabController _tabController;
-  final Beer beer = StoreApp.beerStore.getBeer;
+  Beer beer;
   int _selectedIndex = 0;
 
   @override
@@ -65,8 +65,28 @@ class _BeerPageState extends State<BeerPage>
     ];
   }
 
+  bool isFirst = true;
+
+  Future<void> getBeer(BuildContext context) async {
+    final dynamic arg = ModalRoute.of(context).settings.arguments;
+    if (arg != null && isFirst) {
+      if (arg == 'random') {
+        await StoreApp.beerStore.fethBeerRandom();
+      }
+      if (arg.runtimeType.toString() == 'int') {
+        await StoreApp.beerStore.fethBeer(id: arg);
+      }
+      setState(() {
+        this.isFirst = false;
+        this.beer = StoreApp.beerStore.getBeer;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    this.getBeer(context);
+
     return Scaffold(
       extendBody: true,
       bottomSheet: TabBar(

@@ -13,7 +13,7 @@ class BeerService {
       perPage = 80;
     }
     final res = await Api.get(
-        url + "?page=${page.toString()}&per_page=${perPage.toString()}");
+        '$url?page=${page.toString()}&per_page=${perPage.toString()}');
     if (res.statusCode != 200) {
       debugPrint("error: " + res.body);
     }
@@ -23,5 +23,31 @@ class BeerService {
       return listeItem;
     }
     return new List<Beer>();
+  }
+
+  static Future<Beer> getById({@required int id}) async {
+    final res = await Api.get('$url/$id');
+    if (res.statusCode != 200) {
+      debugPrint("error: " + res.body);
+    }
+    dynamic val = json.decode(res.body);
+    if (val.length != 0) {
+      final beer = val.map((f) => Beer.fromJson(f)).toList();
+      return beer[0];
+    }
+    return Beer();
+  }
+
+  static Future<Beer> getRandom() async {
+    final res = await Api.get('$url/random');
+    if (res.statusCode != 200) {
+      debugPrint("error: " + res.body);
+    }
+    dynamic val = json.decode(res.body);
+    if (val.length != 0) {
+      final beer = val.map((f) => Beer.fromJson(f)).toList();
+      return beer[0];
+    }
+    return Beer();
   }
 }

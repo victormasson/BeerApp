@@ -7,7 +7,7 @@ class SettingWidget extends StatefulWidget {
 }
 
 class _SettingWidgetState extends State<SettingWidget> {
-  ThemeMode _themMode = StoreApp.globalStore.globalSetting.themeMode;
+  ThemeMode _themMode = StoreApp.globalStore.globalSetting.getThemeMode;
 
   @override
   void initState() {

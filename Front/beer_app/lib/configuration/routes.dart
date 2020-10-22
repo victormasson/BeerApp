@@ -10,8 +10,10 @@ final routes = {
 };
 
 class RoutesName {
-  static final RouteTitle home = RouteTitle(path: '/', title: 'Home');
-  static final RouteTitle beer = RouteTitle(path: '/beer', title: 'Beer');
+  static final RouteTitle home =
+      RouteTitle(path: '/', title: 'Home', icon: Icons.home);
+  static final RouteTitle beer =
+      RouteTitle(path: '/beer', title: 'Beer', icon: Icons.sports_bar_rounded);
   static final RouteTitle settings = RouteTitle(
       path: '/settings',
       icon: Icons.settings_applications_outlined,

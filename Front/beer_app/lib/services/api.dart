@@ -13,7 +13,7 @@ class Api {
   }
 
   static String concatUrl(String url) {
-    return Settings.urlApi + url;
+    return Settings.urlApiAll + url;
   }
 
   static Future<Response> get(String url) async {

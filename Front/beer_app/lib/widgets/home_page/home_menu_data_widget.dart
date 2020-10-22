@@ -62,7 +62,7 @@ class _HomeMenuDataWidgetState extends State<HomeMenuDataWidget> {
           return DropdownMenuItem<ActionSortList>(
             value: value,
             child: Text(
-              '${ActionSortListString[value]}',
+              '${actionSortListString[value]}',
             ),
           );
         }).toList(),

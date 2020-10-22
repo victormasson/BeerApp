@@ -6,10 +6,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text(
-          'Settings',
-          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-        ),
+        title: new Text('Settings'),
       ),
       body: SettingWidget(),
     );

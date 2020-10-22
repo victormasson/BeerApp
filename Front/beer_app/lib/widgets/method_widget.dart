@@ -71,6 +71,10 @@ class _MethodWidgetState extends State<MethodWidget> {
 
   Widget getFermentation() {
     return ListTile(
+      leading: CircleAvatar(
+        child: Text(transformStringInitials(title: 'Temperature', maxlength: 2),
+            style: Theme.of(context).textTheme.headline6),
+      ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

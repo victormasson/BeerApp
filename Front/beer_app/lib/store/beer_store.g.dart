@@ -169,6 +169,28 @@ mixin _$BeerStore on _BeerStore, Store {
         .run(() => super.fethListBeer(page: page, perPage: perPage));
   }
 
+  final _$fethBeerAsyncAction = AsyncAction('_BeerStore.fethBeer');
+
+  @override
+  Future<String> fethBeer({@required int id}) {
+    return _$fethBeerAsyncAction.run(() => super.fethBeer(id: id));
+  }
+
+  final _$fethBeerRandomAsyncAction = AsyncAction('_BeerStore.fethBeerRandom');
+
+  @override
+  Future<String> fethBeerRandom() {
+    return _$fethBeerRandomAsyncAction.run(() => super.fethBeerRandom());
+  }
+
+  final _$loadBeerAsyncAction = AsyncAction('_BeerStore.loadBeer');
+
+  @override
+  Future<void> loadBeer({bool reloadData = false}) {
+    return _$loadBeerAsyncAction
+        .run(() => super.loadBeer(reloadData: reloadData));
+  }
+
   final _$_BeerStoreActionController = ActionController(name: '_BeerStore');
 
   @override

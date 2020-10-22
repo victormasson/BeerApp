@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:beer_app/models/beer.dart';
+import 'package:beer_app/store/store.dart';
+import 'package:beer_app/utils/notification_text.dart';
 import 'package:beer_app/utils/string_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class BeerWidget extends StatefulWidget {
   BeerWidget({Key key, @required this.beer}) : super(key: key);
@@ -17,6 +20,11 @@ class _BeerWidgetState extends State<BeerWidget> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    await StoreApp.favoriteBeerStore.getAllFavoriteBeer();
   }
 
   @override
@@ -83,13 +91,44 @@ class _BeerWidgetState extends State<BeerWidget> {
             width: 170,
             height: 170,
           ),
-          // outline
-          IconButton(
-              tooltip: 'Open in browser',
-              onPressed: () async => openInBrowser(this.widget.beer.name),
-              icon: Icon(
-                Icons.open_in_browser,
-              )),
+          Column(
+            children: [
+              IconButton(
+                  tooltip: 'Open in browser',
+                  onPressed: () async => openInBrowser(this.widget.beer.name),
+                  icon: Icon(
+                    Icons.open_in_browser,
+                  )),
+              Observer(
+                  builder: (_) => IconButton(
+                      tooltip: StoreApp.favoriteBeerStore
+                              .isFavoriteBeer(this.widget.beer.id)
+                          ? 'Remove from favorite'
+                          : 'Add to favorite',
+                      onPressed: () async {
+                        if (StoreApp.favoriteBeerStore
+                            .isFavoriteBeer(this.widget.beer.id)) {
+                          StoreApp.favoriteBeerStore
+                              .removeFavoriteBeer(idBeer: this.widget.beer.id);
+                          NotificationText.showSnackBar(
+                              context: context,
+                              text:
+                                  'Remove ${this.widget.beer.name} from favorite');
+                        } else {
+                          StoreApp.favoriteBeerStore.addFavoriteBeer(
+                              idBeer: this.widget.beer.id,
+                              name: this.widget.beer.name);
+                          NotificationText.showSnackBar(
+                              context: context,
+                              text: 'Add ${this.widget.beer.name} to favorite');
+                        }
+                      },
+                      icon: StoreApp.favoriteBeerStore
+                              .isFavoriteBeer(this.widget.beer.id)
+                          ? Icon(Icons.favorite_rounded)
+                          : Icon(Icons.favorite_border_rounded))),
+            ],
+          )
         ],
       ),
     );
